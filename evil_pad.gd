@@ -1,22 +1,22 @@
 extends CharacterBody2D
 
+
+var target
 var speed = 3.5
+var ballPos
+var targetPos
 var screen_size
 
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
 
-func _physics_process(delta: float) -> void:
-	var mousePos = get_global_mouse_position()
-	var to_mouse = mousePos.y - position.y
+func _on_ball_ball_pos(val: Variant) -> void:
+	ballPos = val
+	target = sign(ballPos - position.y)
+	targetPos = ballPos - position.y
 	var velocity = Vector2(0,0)
-	
-	if to_mouse > 10 || to_mouse < -10 :
-		var dir = sign(mousePos.y - position.y)
-		velocity = Vector2(0,dir * speed)
+	velocity = Vector2(0,target * speed)
+	if targetPos > 10 || targetPos < -10 :
 		move_and_collide(velocity)
 	
 	position = position.clamp(Vector2.ZERO + Vector2(0, 40), screen_size - Vector2(0,40))
-	
-	
-	

@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbiuiuhoebnwa"]
+
+[ext_resource type="PackedScene" uid="uid://ccmndeb4hf271" path="res://Paddle.tscn" id="1_diodw"]
+[ext_resource type="PackedScene" uid="uid://bjop33y05r75x" path="res://evil_pad.tscn" id="2_btbbx"]
+[ext_resource type="PackedScene" uid="uid://4w56jrhmbwjx" path="res://ball.tscn" id="3_vv5k7"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_y5nfp"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_j88mt"]
+distance = 9.44166e-06
+
+[node name="Game" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(575, 325)
+
+[node name="Arena" type="Area2D" parent="." groups=["arena"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arena"]
+rotation = -3.14159
+shape = SubResource("WorldBoundaryShape2D_y5nfp")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Arena"]
+position = Vector2(0, 647)
+shape = SubResource("WorldBoundaryShape2D_y5nfp")
+
+[node name="Paddle" parent="." instance=ExtResource("1_diodw")]
+position = Vector2(1100, 282)
+
+[node name="PlayerGoal" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerGoal"]
+position = Vector2(-35, 305)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_j88mt")
+
+[node name="EnemyGoal" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemyGoal"]
+position = Vector2(1186, 305)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_j88mt")
+
+[node name="EvilPad" parent="." groups=["pad"] instance=ExtResource("2_btbbx")]
+position = Vector2(52, 309)
+
+[node name="Ball" parent="." instance=ExtResource("3_vv5k7")]
+position = Vector2(575, 325)
+
+[connection signal="ballPos" from="Ball" to="EvilPad" method="_on_ball_ball_pos"]
