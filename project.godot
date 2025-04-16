@@ -15,6 +15,11 @@ run/main_scene="res://Pong.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Points="*res://points.gd"
+Ball="*res://ball.gd"
+
 [display]
 
 window/size/mode=2

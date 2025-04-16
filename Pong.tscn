@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbiuiuhoebnwa"]
+[gd_scene load_steps=9 format=3 uid="uid://bbiuiuhoebnwa"]
 
 [ext_resource type="PackedScene" uid="uid://ccmndeb4hf271" path="res://Paddle.tscn" id="1_diodw"]
 [ext_resource type="PackedScene" uid="uid://bjop33y05r75x" path="res://evil_pad.tscn" id="2_btbbx"]
+[ext_resource type="PackedScene" uid="uid://cgblqnradvsxf" path="res://spawner.tscn" id="3_87ujr"]
 [ext_resource type="PackedScene" uid="uid://4w56jrhmbwjx" path="res://ball.tscn" id="3_vv5k7"]
 [ext_resource type="Script" path="res://player.gd" id="4_u0fef"]
 [ext_resource type="Script" path="res://evil.gd" id="5_l3ftq"]
@@ -32,22 +33,24 @@ position = Vector2(1100, 282)
 [node name="PlayerGoal" type="Area2D" parent="." groups=["pgoal"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerGoal"]
-position = Vector2(-35, 305)
+position = Vector2(0, 309)
 rotation = 1.5708
 shape = SubResource("WorldBoundaryShape2D_j88mt")
 
 [node name="EnemyGoal" type="Area2D" parent="." groups=["egoal"]]
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemyGoal"]
-position = Vector2(1186, 305)
+position = Vector2(1152, 309)
 rotation = -1.5708
 shape = SubResource("WorldBoundaryShape2D_j88mt")
 
 [node name="EvilPad" parent="." groups=["pad"] instance=ExtResource("2_btbbx")]
 position = Vector2(52, 309)
 
-[node name="Ball" parent="." instance=ExtResource("3_vv5k7")]
+[node name="Spawner" parent="." instance=ExtResource("3_87ujr")]
 position = Vector2(575, 325)
+
+[node name="Ball" parent="Spawner" instance=ExtResource("3_vv5k7")]
 
 [node name="Player" type="Label" parent="."]
 offset_left = 900.0
@@ -67,6 +70,10 @@ theme_override_font_sizes/font_size = 100
 horizontal_alignment = 1
 script = ExtResource("5_l3ftq")
 
-[connection signal="ballPos" from="Ball" to="EvilPad" method="_on_ball_ball_pos"]
-[connection signal="escore" from="Ball" to="Evil" method="_on_ball_escore"]
-[connection signal="pscore" from="Ball" to="Player" method="_on_ball_pscore"]
+[connection signal="paddle" from="Paddle" to="EvilPad" method="_on_paddle_paddle"]
+[connection signal="ballPos" from="Spawner" to="EvilPad" method="_on_spawner_ball_pos"]
+[connection signal="ballx" from="Spawner" to="EvilPad" method="_on_spawner_ballx"]
+[connection signal="ballPos" from="Spawner/Ball" to="EvilPad" method="_on_ball_ball_pos"]
+[connection signal="ballx" from="Spawner/Ball" to="EvilPad" method="_on_ball_ballx"]
+[connection signal="escore" from="Spawner/Ball" to="Evil" method="_on_ball_escore"]
+[connection signal="pscore" from="Spawner/Ball" to="Player" method="_on_ball_pscore"]
